@@ -20,13 +20,13 @@ def handle_keys():
     # Movement keys
     # TODO replace with move method
     if user_input.key == "UP":
-        player.y -= 1
+        player.move(0, -1)
     elif user_input.key == "DOWN":
-        player.y += 1
+        player.move(0, 1)
     elif user_input.key == "LEFT":
-        player.x -= 1
+        player.move(-1, 0)
     elif user_input.key == "RIGHT":
-        player.x += 1
+        player.move(1, 0)
 
     # Command keys
     elif user_input.key == "ENTER" and user_input.alt:
@@ -50,18 +50,20 @@ root = tdl.init(SCREEN_WIDTH, SCREEN_HEIGHT, title="pip init", fullscreen=False)
 con  = tdl.init(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 # Init entities
-player = Entity.Player(0, 0)
+player = Entity.Player(29, 21)
 npc    = Entity.Npc(10, 10)
 
 entities = [ npc, player ]
 
+# Define & init map object
 map = Map.Map(MAP_HEIGHT, MAP_WIDTH)
 map.bind_console(con)
 map.init_map()
 
-# Bind entities to our console
+# Bind entities to our console, map dimensions
 for entity in entities:
     entity.bind_console(con)
+    entity.bind_map(map.dim)
 
 while not tdl.event.is_window_closed():
 

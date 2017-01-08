@@ -14,6 +14,11 @@ class Map:
         self.dim = [[ Cell(False)
             for y in range(self.height) ]
                 for x in range(self.width) ]
+        # XXX Kludge in some pillars (TEMP)
+        self.dim[30][22].blocked = True
+        self.dim[30][22].block_sight = True
+        self.dim[50][22].blocked = True
+        self.dim[50][22].block_sight = True
 
     def draw_map(self):
         for y in range(self.height):

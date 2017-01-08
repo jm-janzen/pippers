@@ -9,6 +9,9 @@ class Entity:
     def bind_console(self, con):
         self.con = con
 
+    def bind_map(self, map):
+        self.map = map
+
     def set_pos(self, x, y):
         self.x = x
         self.y = y
@@ -27,8 +30,9 @@ class Actor(Entity):
 
     def move(self, x, y):
         # TODO check for obstactles
-        self.x += x
-        self.y += y
+        if not self.map[self.x + x][self.y + y].blocked:
+            self.x += x
+            self.y += y
 
 class Player(Actor):
     """ User's Actor """
