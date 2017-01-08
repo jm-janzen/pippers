@@ -1,6 +1,8 @@
 import tdl
 
 from modules import Entity
+from modules import Colours
+from modules import Map
 
 
 # Constants
@@ -37,36 +39,8 @@ def handle_keys():
 # main method
 #
 
-class Colo:
-    dark_wall = (0, 0, 100)
-    dark_ground = (50, 50, 150)
-
-class Cell:
-    def __init__(self, blocked, block_sight=None):
-        self.blocked = blocked
-
-        if block_sight is None:
-            block_sight = blocked
-
-        self.block_sight = block_sight
-
-def init_map():
-    return [[ Cell(False)
-        for y in range(MAP_HEIGHT) ]
-            for x in range(MAP_WIDTH) ]
-
-def draw_map(map):
-    for y in range(MAP_HEIGHT):
-        for x in range(MAP_WIDTH):
-            wall = map[x][y].block_sight
-            if wall:
-                con.draw_char(x, y, None, fg=None, bg=Colo.dark_wall)
-            else:
-                con.draw_char(x, y, None, fg=None, bg=Colo.dark_ground)
-
-
+# TODO move to setup script
 tdl.set_font("pippers/res/arial10x10.png", greyscale=True, altLayout=True)
-
 tdl.setFPS(LIMIT_FPS)
 
 # Create `root' console (shown on screen)
@@ -81,14 +55,17 @@ npc    = Entity.Npc(10, 10)
 
 entities = [ npc, player ]
 
-map = init_map()
+map = Map.Map(MAP_HEIGHT, MAP_WIDTH)
+map.bind_console(con)
+map.init_map()
 
 # Bind entities to our console
 for entity in entities:
     entity.bind_console(con)
 
 while not tdl.event.is_window_closed():
-    draw_map(map)
+
+    map.draw_map()
 
     # Draw new entity positions
     for entity in entities:
