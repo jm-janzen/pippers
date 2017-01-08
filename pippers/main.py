@@ -8,6 +8,7 @@ def handle_keys():
     user_input = tdl.event.key_wait()
 
     # Movement keys
+    # TODO replace with move method
     if user_input.key == "UP":
         player.y -= 1
     elif user_input.key == "DOWN":
@@ -40,18 +41,24 @@ tdl.setFPS(LIMIT_FPS)
 # Create `root' console (shown on screen)
 root = tdl.init(SCREEN_WIDTH, SCREEN_HEIGHT, title="pip init", fullscreen=False)
 
+# Virtual console - a holding area before drawing to root console
 con  = tdl.init(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-# Init player
-player = Entity.Player()
+# Init entities
+player = Entity.Player(0, 0)
+npc    = Entity.Npc(10, 10)
 
-# Bind player to our console
-player.bind_console(con)
+entities = [ npc, player ]
+
+# Bind entities to our console
+for entity in entities:
+    entity.bind_console(con)
 
 while not tdl.event.is_window_closed():
 
-    # Draw new player pos
-    player.draw()
+    # Draw new entity positions
+    for entity in entities:
+        entity.draw()
 
     # Blit contents of con to root console
     root.blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0)
@@ -59,8 +66,9 @@ while not tdl.event.is_window_closed():
     # Redraw root console
     tdl.flush()
 
-    # Clear player prev pos
-    player.clear()
+    # Clear entities prev positions
+    for entity in entities:
+        entity.clear()
 
     # Get user input and handle
     exit_game = handle_keys()
