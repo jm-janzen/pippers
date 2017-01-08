@@ -64,7 +64,7 @@ SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50
 LIMIT_FPS = 20
 
-tdl.set_font("arial10x10.png", greyscale=True, altLayout=True)
+tdl.set_font("pippers/res/arial10x10.png", greyscale=True, altLayout=True)
 
 tdl.setFPS(LIMIT_FPS)
 
